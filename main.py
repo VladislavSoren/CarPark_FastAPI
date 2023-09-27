@@ -1,10 +1,22 @@
+from contextlib import asynccontextmanager
+
 import uvicorn
 from fastapi import FastAPI
 
+from core.models import Base
+from core.models.db_helper import db_helper
 from item_views import router as item_router
 from user.views import router as user_router
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    async with db_helper.engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 app.include_router(item_router)
 app.include_router(user_router)
 
