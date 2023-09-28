@@ -1,4 +1,4 @@
-from sqlalchemy import select, update
+from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -30,20 +30,22 @@ async def create_product(session: AsyncSession, product_in: ProductCreate) -> Pr
 
 
 async def update_product(
+    product_update: ProductUpdate | ProductUpdatePartial,
+    product: Product,
     session: AsyncSession,
-    product_in: ProductUpdate | ProductUpdatePartial,
     partial: bool = False,
 ) -> Product | None:
-    stmt = (
-        #
-        update(Product).
-        #
-        where(Product.id == product_in.id)
-        #
-        .values(**product_in.model_dump(exclude_unset=partial))
-    )
-    await session.execute(stmt)
+    # обновляем атрибуты
+    for name, value in product_update.model_dump(exclude_unset=partial).items():
+        setattr(product, name, value)
     await session.commit()
 
-    product = await session.get(Product, product_in.id)
     return product
+
+
+async def delete_product(
+    product: Product,
+    session: AsyncSession,
+) -> None:
+    await session.delete(product)
+    await session.commit()

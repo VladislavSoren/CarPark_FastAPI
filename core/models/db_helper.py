@@ -30,13 +30,17 @@ class DatabaseHelper:
         )
         return async_session
 
+    # Создание сессии каждый раз (при новом обращении в view -> новая сессия)
     async def session_dependency(self) -> AsyncSession:
-        async_session = self.get_scoped_session()
-
-        async with async_session() as session:
+        async with self.async_session_factory() as session:
             yield session
-            await session.remove()
-            # await async_session.remove()
+            await session.close()
+
+    # одна сессия на view
+    async def scoped_session_dependency(self) -> AsyncSession:
+        session = self.get_scoped_session()
+        yield session
+        await session.close()
 
 
 db_helper = DatabaseHelper(

@@ -11,7 +11,7 @@ class ProductCreate(ProductBase):
 
 
 class ProductUpdate(ProductBase):
-    id: int
+    pass
 
 
 class ProductUpdatePartial(ProductUpdate):
