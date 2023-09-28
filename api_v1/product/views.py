@@ -22,7 +22,10 @@ async def get_products(session: AsyncSession = Depends(db_helper.session_depende
 
 
 @router.get("/{product_id}/", response_model=Product)
-async def get_product(product_id: int, session: AsyncSession = Depends(db_helper.session_dependency)):
+async def get_product(
+    product_id: int,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
     product = await crud.get_product(session=session, product_id=product_id)
     if product is not None:
         return product
