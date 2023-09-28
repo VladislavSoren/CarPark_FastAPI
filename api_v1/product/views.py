@@ -16,7 +16,9 @@ router = APIRouter(
 
 
 @router.get("/", response_model=list[Product])
-async def get_products(session: AsyncSession = Depends(db_helper.session_dependency)):
+async def get_products(
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
     # нам в автомате возвращаются объекты SQLAlchemy, но нам нужны pydantic (model_config в schemas)
     return await crud.get_products(session=session)
 
@@ -33,17 +35,24 @@ async def get_product(
 
 
 @router.post("/", response_model=Product)
-async def create_product(product_in: ProductCreate, session: AsyncSession = Depends(db_helper.session_dependency)):
+async def create_product(
+    product_in: ProductCreate,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
     return await crud.create_product(session, product_in)
 
 
 @router.put("/update/", response_model=Product)
-async def update_product(product_in: ProductUpdate, session: AsyncSession = Depends(db_helper.session_dependency)):
+async def update_product(
+    product_in: ProductUpdate,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
     return await crud.update_product(session, product_in)
 
 
 @router.patch("/update_part/", response_model=Product)
 async def update_product_partial(
-    product_in: ProductUpdatePartial, session: AsyncSession = Depends(db_helper.session_dependency)
+    product_in: ProductUpdatePartial,
+    session: AsyncSession = Depends(db_helper.session_dependency),
 ):
     return await crud.update_product(session, product_in, partial=True)
