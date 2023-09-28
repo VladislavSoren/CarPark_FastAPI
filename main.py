@@ -5,16 +5,12 @@ from fastapi import FastAPI
 
 from api_v1 import router as router_v1
 from core.config import settings
-from core.models import Base
-from core.models.db_helper import db_helper
 from item_views import router as item_router
 from user.views import router as user_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with db_helper.engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
     yield
 
 
