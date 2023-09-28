@@ -34,7 +34,14 @@ async def update_product(
     product_in: ProductUpdate | ProductUpdatePartial,
     partial: bool = False,
 ) -> Product | None:
-    stmt = update(Product).where(Product.id == product_in.id).values(**product_in.model_dump(exclude_unset=partial))
+    stmt = (
+        #
+        update(Product).
+        #
+        where(Product.id == product_in.id)
+        #
+        .values(**product_in.model_dump(exclude_unset=partial))
+    )
     await session.execute(stmt)
     await session.commit()
 
