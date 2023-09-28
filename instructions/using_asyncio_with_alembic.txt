@@ -1,0 +1,18 @@
+https://alembic.sqlalchemy.org/en/latest/cookbook.html
+
+1. run "alembic init -t async alembic"
+2. uncomment "file_template" in alembic.ini for beautiful migration names
+3. add "Base.metadata" and "DB_URL" in evn.py
+
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
+
+# set my metadata
+target_metadata = Base.metadata
+
+# set our db url in sqlalchemy config
+config.set_main_option("sqlalchemy.url", settings.DB_URL)
+# config.set_main_option("sqlalchemy.url", DB_URL)
+
+4. alembic revision --autogenerate -m "create product table"
+5. alembic upgrade head
