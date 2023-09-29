@@ -4,7 +4,7 @@ from .base import Base
 
 
 class Product(Base):
-    __abstract__ = True
+    # __abstract__ = True
 
     name: Mapped[str]
     price: Mapped[int]
