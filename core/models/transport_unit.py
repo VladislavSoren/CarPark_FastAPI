@@ -12,12 +12,12 @@ class TransportUnit(Base):
     driver_id: Mapped[int] = mapped_column(ForeignKey("driver.id"))
     auto_id: Mapped[int] = mapped_column(ForeignKey("auto.id"))
 
+    # additional properties
+    __table_args__ = (UniqueConstraint("driver_id", "auto_id", name="unique_transport_unit"),)
+
     # relationships
     driver: Mapped["Driver"] = relationship(back_populates="auto")
     auto: Mapped["Auto"] = relationship(back_populates="driver")
-
-    # additional properties
-    __table_args__ = (UniqueConstraint("driver_id", "auto_id", name="unique_transport_unit"),)
 
 
 class Driver(Base):

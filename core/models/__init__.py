@@ -7,8 +7,8 @@ __all__ = (
     "TransportUnit",
     "Driver",
     "Auto",
-    # "TrafficUnit",
-    # "Route",
+    "TrafficUnit",
+    "Route",
     "Product",
 )
 
@@ -22,7 +22,7 @@ from .park import Park
 from .park_owner import ParkOwner
 from .transport_unit import TransportUnit, Driver, Auto
 
-# from .traffic_unit import TrafficUnit, Route
+from .traffic_unit import TrafficUnit, Route
 
 # Схема полного crud
 from .product import Product
