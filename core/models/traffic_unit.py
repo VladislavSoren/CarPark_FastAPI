@@ -1,10 +1,13 @@
-from typing import List
+from typing import TYPE_CHECKING, List
 
 from sqlalchemy import ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from core.models import Base
 from core.models.transport_unit import TransportUnit
+
+if TYPE_CHECKING:
+    from core.models import TransportUnit
 
 
 class TrafficUnit(Base):

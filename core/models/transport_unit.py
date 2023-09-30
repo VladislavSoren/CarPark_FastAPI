@@ -1,10 +1,13 @@
-from typing import List
+from typing import TYPE_CHECKING, List
 
 from sqlalchemy import ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from core.models import Base
 from core.models.park import Park
+
+if TYPE_CHECKING:
+    from core.models import TrafficUnit
 
 
 class TransportUnit(Base):
@@ -18,6 +21,7 @@ class TransportUnit(Base):
     # relationships
     driver: Mapped["Driver"] = relationship(back_populates="auto")
     auto: Mapped["Auto"] = relationship(back_populates="driver")
+    route: Mapped[List["TrafficUnit"]] = relationship(back_populates="transport_unit")
 
 
 class Driver(Base):
