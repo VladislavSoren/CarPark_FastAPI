@@ -11,4 +11,7 @@ class Base(DeclarativeBase):
         return cls.__name__.lower()
 
     # у всех сущностей будет колонка id
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+
+
+# transport_unit, traffic_unit
