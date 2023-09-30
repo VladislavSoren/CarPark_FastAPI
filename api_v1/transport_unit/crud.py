@@ -1,5 +1,4 @@
 from sqlalchemy import Result, select
-from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api_v1.transport_unit.schemas import TransportUnitCreate
@@ -22,11 +21,4 @@ async def get_transport_units(session: AsyncSession) -> list[TransportUnit]:
 
 
 async def get_transport_unit(session: AsyncSession, transport_unit_id) -> TransportUnit | None:
-    stmt = select(TransportUnit).where(TransportUnit.id == transport_unit_id)
-    result: Result = await session.execute(stmt)
-    try:
-        transport_unit = result.scalars().one()
-    except NoResultFound:
-        return None
-    else:
-        return transport_unit
+    return await session.get(TransportUnit, transport_unit_id)

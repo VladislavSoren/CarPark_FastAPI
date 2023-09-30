@@ -1,8 +1,8 @@
 """create TransportUnit table
 
-Revision ID: 99e36ae97edc
+Revision ID: 95992f467180
 Revises: ef94c89f4b97
-Create Date: 2023-09-30 18:27:09.171559
+Create Date: 2023-09-30 21:29:58.297554
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision: str = "99e36ae97edc"
+revision: str = "95992f467180"
 down_revision: Union[str, None] = "ef94c89f4b97"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -39,7 +39,7 @@ def upgrade() -> None:
             ["driver_id"],
             ["driver.id"],
         ),
-        sa.PrimaryKeyConstraint("driver_id", "auto_id", "id"),
+        sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("driver_id", "auto_id", name="unique_transport_unit"),
     )
     # ### end Alembic commands ###

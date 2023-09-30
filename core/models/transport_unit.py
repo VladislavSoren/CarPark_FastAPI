@@ -9,8 +9,8 @@ from core.models.park import Park
 
 class TransportUnit(Base):
     # fields
-    driver_id: Mapped[int] = mapped_column(ForeignKey("driver.id"), primary_key=True)
-    auto_id: Mapped[int] = mapped_column(ForeignKey("auto.id"), primary_key=True)
+    driver_id: Mapped[int] = mapped_column(ForeignKey("driver.id"))
+    auto_id: Mapped[int] = mapped_column(ForeignKey("auto.id"))
 
     # relationships
     driver: Mapped["Driver"] = relationship(back_populates="auto")
