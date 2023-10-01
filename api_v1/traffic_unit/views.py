@@ -12,7 +12,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=TrafficUnit, status_code=status.HTTP_201_CREATED)
-async def create_product(
+async def create_traffic_unit(
     traffic_unit_in: TrafficUnitCreate,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
@@ -20,14 +20,14 @@ async def create_product(
 
 
 @router.get("/", response_model=list[TrafficUnit])
-async def get_products(
+async def get_traffic_units(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return await crud.get_traffic_units(session=session)
 
 
 @router.get("/{traffic_unit_id}/", response_model=TrafficUnit)
-async def get_product(
+async def get_traffic_unit(
     traffic_unit: TrafficUnit = Depends(traffic_unit_by_id),
 ):
     return traffic_unit
