@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=Park, status_code=status.HTTP_201_CREATED)
-async def create_product(
+async def create_park(
     parkowner_in: ParkCreate,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
@@ -21,14 +21,14 @@ async def create_product(
 
 
 @router.get("/", response_model=list[Park])
-async def get_products(
+async def get_parks(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return await crud.get_parks(session=session)
 
 
 @router.get("/{park_id}/", response_model=Park)
-async def get_product(
+async def get_park(
     park: Park = Depends(park_by_id),
 ):
     return park
