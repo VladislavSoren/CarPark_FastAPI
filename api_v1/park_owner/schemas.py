@@ -9,6 +9,10 @@ class ParkOwnerCreate(ParkOwnerBase):
     pass
 
 
+class ParkOwnerUpdate(ParkOwnerBase):
+    pass
+
+
 class ParkOwner(ParkOwnerBase):
     model_config = ConfigDict(from_attributes=True)
     id: int

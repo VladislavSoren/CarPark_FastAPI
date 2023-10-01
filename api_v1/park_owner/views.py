@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from api_v1.park.schemas import Park
 from api_v1.park_owner import crud
 from api_v1.park_owner.dependencies import parkowner_by_id
-from api_v1.park_owner.schemas import ParkOwner, ParkOwnerCreate
+from api_v1.park_owner.schemas import ParkOwner, ParkOwnerCreate, ParkOwnerUpdate
 from core.models import db_helper
 
 router = APIRouter(
@@ -41,3 +41,25 @@ async def get_all_owner_parks(
     _: Park = Depends(parkowner_by_id),  # check if park is exist
 ):
     return await crud.get_all_owner_parks(session, parkowner_id)
+
+
+@router.put("/{parkowner_id}/", response_model=ParkOwner)
+async def update_owner(
+    owner_update: ParkOwnerUpdate,
+    owner: ParkOwner = Depends(parkowner_by_id),
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
+    return await crud.update_owner(
+        owner_update=owner_update,
+        owner=owner,
+        session=session,
+    )
+
+
+@router.delete("/{parkowner_id}/", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_owner(
+    owner: ParkOwner = Depends(parkowner_by_id),
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
+    await crud.delete_owner(owner, session)
+    return f"ParkOwner {owner.id} was deleted."
