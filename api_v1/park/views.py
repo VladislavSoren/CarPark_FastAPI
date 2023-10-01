@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from api_v1.auto.schemas import Auto
 from api_v1.park import crud
 from api_v1.park.dependencies import park_by_id
 from api_v1.park.schemas import Park, ParkCreate
@@ -31,3 +32,12 @@ async def get_product(
     park: Park = Depends(park_by_id),
 ):
     return park
+
+
+@router.get("/{park_id}/autos/", response_model=list[Auto])
+async def get_all_park_autos(
+    park_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+    _: Park = Depends(park_by_id),  # check if park is exist
+):
+    return await crud.get_all_park_autos(session, park_id)
