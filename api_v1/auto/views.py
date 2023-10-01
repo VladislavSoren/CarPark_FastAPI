@@ -5,6 +5,7 @@ from api_v1.auto import crud
 from api_v1.auto.dependencies import auto_by_id
 from api_v1.auto.schemas import Auto, AutoCreate
 from api_v1.driver.schemas import Driver
+from api_v1.route.schemas import Route
 from core.models import db_helper
 
 router = APIRouter(
@@ -41,3 +42,12 @@ async def get_all_auto_drivers(
     _: Auto = Depends(auto_by_id),  # check if auto is exist
 ):
     return await crud.get_all_auto_drivers(session, auto_id)
+
+
+@router.get("/{auto_id}/routes/", response_model=list[Route])
+async def get_all_auto_routes(
+    auto_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+    _: Auto = Depends(auto_by_id),  # check if auto is exist
+):
+    return await crud.get_all_auto_routes(session, auto_id)
