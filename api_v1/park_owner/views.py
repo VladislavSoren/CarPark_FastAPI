@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from api_v1.park.schemas import Park
 from api_v1.park_owner import crud
 from api_v1.park_owner.dependencies import parkowner_by_id
 from api_v1.park_owner.schemas import ParkOwner, ParkOwnerCreate
@@ -31,3 +32,12 @@ async def get_parkowner(
     parkowner: ParkOwner = Depends(parkowner_by_id),
 ):
     return parkowner
+
+
+@router.get("/{parkowner_id}/parks/", response_model=list[Park])
+async def get_all_owner_parks(
+    parkowner_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+    _: Park = Depends(parkowner_by_id),  # check if park is exist
+):
+    return await crud.get_all_owner_parks(session, parkowner_id)
