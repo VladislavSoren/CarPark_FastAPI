@@ -10,6 +10,10 @@ class ParkCreate(ParkBase):
     pass
 
 
+class ParkUpdate(ParkBase):
+    pass
+
+
 class Park(ParkBase):
     model_config = ConfigDict(from_attributes=True)
     id: int

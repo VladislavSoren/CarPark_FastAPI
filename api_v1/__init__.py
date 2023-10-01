@@ -10,7 +10,7 @@ from .route.views import router as route_router
 from .traffic_unit.views import router as traffic_unit_router
 
 router = APIRouter()
-router.include_router(router=parkowner_router, prefix="/park_owner")
+router.include_router(router=parkowner_router, prefix="/park-owner")
 router.include_router(router=park_router, prefix="/park")
 router.include_router(router=auto_router, prefix="/auto")
 router.include_router(router=driver_router, prefix="/driver")

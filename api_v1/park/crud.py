@@ -2,7 +2,7 @@ from sqlalchemy import Result, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from api_v1.park.schemas import ParkCreate
+from api_v1.park.schemas import ParkCreate, ParkUpdate
 from core.models import Auto, Park
 
 
@@ -31,3 +31,25 @@ async def get_all_park_autos(session: AsyncSession, park_id) -> list[Auto]:
     park_with_autos = result.scalars().one()
     autos = park_with_autos.auto
     return list(autos)
+
+
+async def update_park(
+    park_update: ParkUpdate,
+    park: Park,
+    session: AsyncSession,
+    partial: bool = False,
+) -> Park | None:
+    # обновляем атрибуты
+    for name, value in park_update.model_dump(exclude_unset=partial).items():
+        setattr(park, name, value)
+    await session.commit()
+
+    return park
+
+
+async def delete_park(
+    park: Park,
+    session: AsyncSession,
+) -> None:
+    await session.delete(park)
+    await session.commit()
