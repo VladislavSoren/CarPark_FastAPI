@@ -11,6 +11,10 @@ class RouteCreate(RouteBase):
     pass
 
 
+class RouteUpdate(RouteBase):
+    pass
+
+
 class Route(RouteBase):
     model_config = ConfigDict(from_attributes=True)
     id: int

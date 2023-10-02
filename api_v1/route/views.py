@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from api_v1.route import crud
 from api_v1.route.dependencies import route_by_id
-from api_v1.route.schemas import Route, RouteCreate
+from api_v1.route.schemas import Route, RouteCreate, RouteUpdate
 from core.models import db_helper
 
 router = APIRouter(
@@ -31,3 +31,16 @@ async def get_route(
     route: Route = Depends(route_by_id),
 ):
     return route
+
+
+@router.put("/{route_id}/", response_model=Route)
+async def update_route(
+    route_update: RouteUpdate,
+    route: Route = Depends(route_by_id),
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
+    return await crud.update_route(
+        route_update=route_update,
+        route=route,
+        session=session,
+    )
